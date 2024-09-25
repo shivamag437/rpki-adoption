@@ -19,9 +19,12 @@ $ python cleaningPOs.py 202404
 $ python getting_dp_RPKIviu.py
 
 5-Graph: dates need to be adjusted on the code depending on dates for which the data was processed with the same workflow)
+
 5.1 AS per prefix origin count and RPKI invalid count (one date)
 $ python plottingRPKIvalidity.py 
+
 5.2 RPKI filtering over time (needs list of dates to include in the figure)
 $ python plottingROVoverTime.py
+
 5.3 RPKI invalid count per AS (needs lists of dates and ASes to consider)
 $ python plotting_invalids_perASN.py
