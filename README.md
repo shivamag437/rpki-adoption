@@ -3,7 +3,7 @@ Code used by RPKI adoption studies
 
 Measuring RPKI ROV
 
-1- Downloading BGP data and extracting Prefix-origin pairs
+1- Download BGP data and extracting Prefix-origin pairs
 $ python pybgpstream_getRIBs.py 20240430
 $ python extractingPOs.py 20240430
 
