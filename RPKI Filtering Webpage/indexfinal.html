@@ -35,6 +35,14 @@
   .chart {
       margin-bottom: 5px; /* Add some spacing between the charts */
   }
+  #asn-checkboxes {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    grid-template-rows: repeat(11, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
    
   </style>
 </head>
@@ -46,7 +54,14 @@
       <div id="scatter-chartipv4" class="chart"></div>
       <div id="scatter-chartipv6" class="chart"></div>
     </div>
-    <div id="invalids-asn-chart" class="chart"></div>
+    <div id="invalids-chart" class="chart" style="display: flex">
+      <div id="invalids-asn-chart"></div>
+      <div id="asn-selection" style="flex: 1 ; padding-left: 20px;">
+        <label>Select ASNs to display:</label>
+        <button id="toggle-select-all">Unselect All</button>
+        <div id="asn-checkboxes"></div>
+      </div>
+    </div>
   </div>
   <div id="scatter-container"></div>
   <div id="tooltip"></div>
@@ -58,7 +73,7 @@
   <!-- Include your custom script file -->
   <script src="scriptstart.js"></script>
   <script src="scatter_plot_script.js"></script>
-  <!-- <script src="invalids_per_asn.js"></script> -->
+  <script src="invalids_per_asn.js"></script>
 </body>
 
 </html>
