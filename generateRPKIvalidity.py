@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 import csv
 import os
 
-plt.style.use('seaborn-paper') #seaborn ggplot
-
 def readFile(fileName):
 	'''Returns list of lines in file'''
 	with open(fileName,'r') as inputFile:
@@ -115,7 +113,7 @@ def main():
 			# print (v4ROV_cut)
 			info_asns = ['1299','2914' '59715', '50300', '34968', '37271', '60501', '328474']
 			for i in range(len(data_matrix)):
-				if dp_asns[i] in info_asns:
+				# if dp_asns[i] in info_asns:
 					# print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v4_invalid_percent[i], v4_invalidASN[i]+v4_invalidLength[i], v4_invalidASN[i]+v4_invalidLength[i]+v4_valid[i], v4_pos[i]))
 				if v4_invalidLength[i]+v4_invalidASN[i]<= v4ROV_cut and v4_pos[i]>=v4_ff_cut:
 					# print data_matrix[i]
@@ -157,17 +155,6 @@ def main():
 			v4_v6_filtering = [x for x in v6ROV_asns if x in ROV_asns]
 			# print ('IPv4 and PIv6 filtering :%d'%(len(v4_v6_filtering)))
 
-			# Figure Environment
-			# fig =plt.figure(figsize=(8, 4)) 
-			# fig =plt.figure(figsize=(6.8,4))
-			fig =plt.figure(figsize =(5,3.5), tight_layout=True)#figsize =(5.9,3.6) sq = (4,3.6)  lar = (3, 2.2) nar = (2.2,2.4) mlar =(3.8,2.8)
-			sq = '_thesis'
-			ax0 =fig.subplots()
-			ax0.spines["top"].set_visible(False)
-			ax0.spines["right"].set_visible(False)
-			plt.grid(True, linestyle= ':')
-			ax0.set_axisbelow(True)
-
 			# graph_type = '_bar'
 			# graph_name = 'v4_RPKIinvalid_perDP'
 			# # graph_name = 'v4_invalidASN_perDP'
@@ -188,15 +175,10 @@ def main():
 			# axs[1].bar(dp_asns, v4_invalidLength, label="v4_invalidLength")
 			# # rotate axis labels
 			# plt.setp(plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
-
-			graph_type = '_scat'
-			graph_name = ipv+'_RPKIinvalid_POcount'
 			rpki_invalids = np.zeros(len(data_matrix))
 			pos = np.zeros(len(data_matrix))
 			ff_cut = 0
 			ROV_cut = 0
-			ylim =  1000000
-			xlim = 8000
 			if ipv == 'v4':
 				rpki_invalids = v4_invalidLength+v4_invalidASN
 				pos = v4_pos
@@ -207,9 +189,6 @@ def main():
 				pos = v6_pos
 				ff_cut = v6_ff_cut
 				ROV_cut = v6ROV_cut
-				ylim =  100000
-				xlim = 1400
-
 			#write to csv
 			filename = "RPKIFilteringWebpage/RPKIinvalidFiles/RPKIinvalid_" + date + "_" + ipv + ".csv"
 			with open(filename, 'w') as csvfile:
@@ -220,7 +199,7 @@ def main():
 				for i in range(len(rpki_invalids)):
 					writer.writerow([rpki_invalids[i], pos[i], dp_asns[i]])
 
-			print ("data written to RPKIFilteringWebpage/RPKIinvalidFiles")
+			print ("data written to " + filename)
 
 if __name__ == '__main__':
 	main()
