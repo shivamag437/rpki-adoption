@@ -14,7 +14,7 @@
   // Create the SVG element and append it to the chart container
   const svg = d3.select("#invalids-asn-chart")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", width + margin.left + margin.right + 100)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -130,6 +130,26 @@
               });
 
           updateChart(Array.from(selectedKeys)); // Update the chart with new selection
+      });
+
+      // Add event listner for select tier 1 ASes button
+      d3.select("#toggle-select-tier1").on("click", function () {
+            const tier1ASes = ["174", "209", "286", "701", "1239", "1299", "2828", "2914", "3257", "3320", "3356", "3491","5511", "6453", "6461", "6762", "6830","7018","12956"];
+            selectedKeys.clear(); // Clear the selectedKeys set
+    
+            // Update all checkboxes and the selectedKeys set
+            checkBoxContainer.selectAll("input[type='checkbox']")
+                .property("checked", false)
+                .each(function () {
+                    const key = this.id.split("asn-")[1];
+                    key_num = key.split("-")[0];
+                    if (tier1ASes.includes(key_num)) {
+                        selectedKeys.add(key);
+                        d3.select(this).property("checked", true);
+                    }
+                });
+    
+            updateChart(Array.from(selectedKeys)); // Update the chart with new selection
       });
 
       // Initial chart update with all ASNs
