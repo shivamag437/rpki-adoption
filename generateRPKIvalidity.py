@@ -91,71 +91,71 @@ def main():
 			samples = [v4_valid, v4_invalidLength, v4_invalidASN, v4_unknown, v4_pos, v4_invalidASN+v4_invalidLength, v4_invalid_percent, v6_valid, v6_invalidLength, v6_invalidASN, v6_unknown, v6_pos, v6_invalidASN+v6_invalidLength, v6_invalid_percent]
 			# names = ['v6_valid', 'v6_invalidLength', 'v6_invalidASN', 'v6_unknown', 'v6_POs', 'v6_invalid', 'v6_invalid_percent']
 			# samples = [v6_valid, v6_invalidLength, v6_invalidASN, v6_unknown, v6_pos, v6_invalidASN+v6_invalidLength, v6_invalid_percent]
-			print (date)
-			print ('data|size|min|mean|max|5p|10p|25p|median|75p|90p|95p|99p')
+			# print (date)
+			# print ('data|size|min|mean|max|5p|10p|25p|median|75p|90p|95p|99p')
 			for name, sample in zip(names, samples):
 				t1, t2, t3 = quartiles (sample)
 				t10,t05, t90, t95, t99= percentiles(sample, [0.1,0.05, 0.9, 0.95, 0.99])
-				if len(sample) > 0:
-					print ('%s| %d| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f'%(name, len(sample),min(sample), float(sum(sample))/float(len(sample)), max(sample),t05, t10, t1,t2,t3, t90, t95, t99))
+				# if len(sample) > 0:
+					# print ('%s| %d| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f| %.2f'%(name, len(sample),min(sample), float(sum(sample))/float(len(sample)), max(sample),t05, t10, t1,t2,t3, t90, t95, t99))
 
 			# dp_filtering = [(col, dp, x) for x,dp,col, po in zip(v4_invalid_percent,dp_asns, collector_list, v4_pos) if x<0.03 and po>500000]
 			filtering_count = 0
 			ROV_asns =[]
-			print ('v4 prefixes')
+			# print ('v4 prefixes')
 			# v4_ff_cut = int(max(v4_pos,[0.95])[0]*0.7)
 			v4_ff_cut = int(max(v4_pos)*0.75)
-			print (v4_ff_cut)
+			# print (v4_ff_cut)
 			# v4_ff_invalid_percents = [v4_invalid_percent[i] for i in range(len(v4_valid)) if v4_pos[i]>= v4_ff_cut]
 			v4_ff_invalids = [v4_invalidLength[i]+v4_invalidASN[i] for i in range(len(v4_valid)) if v4_pos[i]>= v4_ff_cut]
 			cleanOutliers(v4_ff_invalids)
-			print (len(v4_ff_invalids))
+			# print (len(v4_ff_invalids))
 			# v4ROV_cut = max(v4_ff_invalid_percents,[.95])[0]*0.2
 			v4ROV_cut = max(v4_ff_invalids)*0.2
-			print (v4ROV_cut)
+			# print (v4ROV_cut)
 			info_asns = ['1299','2914' '59715', '50300', '34968', '37271', '60501', '328474']
 			for i in range(len(data_matrix)):
 				if dp_asns[i] in info_asns:
-					print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v4_invalid_percent[i], v4_invalidASN[i]+v4_invalidLength[i], v4_invalidASN[i]+v4_invalidLength[i]+v4_valid[i], v4_pos[i]))
+					# print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v4_invalid_percent[i], v4_invalidASN[i]+v4_invalidLength[i], v4_invalidASN[i]+v4_invalidLength[i]+v4_valid[i], v4_pos[i]))
 				if v4_invalidLength[i]+v4_invalidASN[i]<= v4ROV_cut and v4_pos[i]>=v4_ff_cut:
 					# print data_matrix[i]
-					print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v4_invalid_percent[i], v4_invalidASN[i]+v4_invalidLength[i], v4_invalidASN[i]+v4_invalidLength[i]+v4_valid[i], v4_pos[i]))
+					# print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v4_invalid_percent[i], v4_invalidASN[i]+v4_invalidLength[i], v4_invalidASN[i]+v4_invalidLength[i]+v4_valid[i], v4_pos[i]))
 					filtering_count +=1
 					ROV_asns.append(int(dp_asns[i]))
 
-			print ('Direct peers filtering: %d'%len(set(ROV_asns)))
-			print (set(ROV_asns))
-			print ('Total Direct peers: %d'%len(set (v4_dp_asns)))
+			# print ('Direct peers filtering: %d'%len(set(ROV_asns)))
+			# print (set(ROV_asns))
+			# print ('Total Direct peers: %d'%len(set (v4_dp_asns)))
 			v4_full_feeders = [int(dp_asns[i]) for i in range(len(dp_asns)) if v4_pos[i] >= v4_ff_cut]
-			print ('Total Full Feeders: %d'%len(v4_full_feeders))
-			print (v4_full_feeders)
+			# print ('Total Full Feeders: %d'%len(v4_full_feeders))
+			# print (v4_full_feeders)
 
 			v6ROV_asns =[]
-			print ('v6 prefixes')
+			# print ('v6 prefixes')
 			# ff_cut = int (percentiles(v6_pos,[0.95])[0]*0.7)
 			v6_ff_cut = int(max(v6_pos)*0.75)
-			print (v6_ff_cut)
+			# print (v6_ff_cut)
 			v6_ff_invalids = [v6_invalidLength[i]+v6_invalidASN[i] for i in range(len(v6_valid)) if v6_pos[i]>= v6_ff_cut]
 			# v6_ff_invalid_percents = [v6_invalid_percent[i] for i in range(len(v6_valid)) if v6_pos[i]>= ff_cut]
 			cleanOutliers(v6_ff_invalids)
-			print (len(v6_ff_invalids))
+			# print (len(v6_ff_invalids))
 			# v6ROV_cut = percentiles(v6_ff_invalid_percents,[.95])[0]*0.2
 			v6ROV_cut = max(v6_ff_invalids)*0.2
-			print (v6ROV_cut)
+			# print (v6ROV_cut)
 			for i in range(len(data_matrix)):
 				if v6_invalidLength[i]+v6_invalidASN[i]<= v6ROV_cut and v6_pos[i]>=v6_ff_cut:
 					# print data_matrix[i]
-					print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v6_invalid_percent[i], v6_invalidASN[i]+v6_invalidLength[i],v6_invalidASN[i]+v6_invalidLength[i]+v6_valid[i], v6_pos[i] ))
+					# print ('%s, %.2f, %d/%d, %d'%(dp_asns[i], v6_invalid_percent[i], v6_invalidASN[i]+v6_invalidLength[i],v6_invalidASN[i]+v6_invalidLength[i]+v6_valid[i], v6_pos[i] ))
 					v6ROV_asns.append(int(dp_asns[i]))
 
-			print ('Direct peers filtering: %d'%len(set(v6ROV_asns)))
-			print (set(v6ROV_asns))
-			print ('Total Direct peers: %d'%len(set (v6_dp_asns)))
+			# print ('Direct peers filtering: %d'%len(set(v6ROV_asns)))
+			# print (set(v6ROV_asns))
+			# print ('Total Direct peers: %d'%len(set (v6_dp_asns)))
 			v6_full_feeders = [int(dp_asns[i]) for i in range(len(dp_asns)) if v6_pos[i] >= v6_ff_cut]
-			print ('Total Full Feeders: %d'%len(v6_full_feeders))
+			# print ('Total Full Feeders: %d'%len(v6_full_feeders))
 			# print v6_full_feeders
 			v4_v6_filtering = [x for x in v6ROV_asns if x in ROV_asns]
-			print ('IPv4 and PIv6 filtering :%d'%(len(v4_v6_filtering)))
+			# print ('IPv4 and PIv6 filtering :%d'%(len(v4_v6_filtering)))
 
 			# Figure Environment
 			# fig =plt.figure(figsize=(8, 4)) 
@@ -220,7 +220,7 @@ def main():
 				for i in range(len(rpki_invalids)):
 					writer.writerow([rpki_invalids[i], pos[i], dp_asns[i]])
 
-			print ("data written to ROVoverTime.csv")
+			print ("data written to RPKIFilteringWebpage/RPKIinvalidFiles")
 
 if __name__ == '__main__':
 	main()
